@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'homepage.css' %}">
+    <title>To-Do</title>
+</head>
+<body>
+    <div id="wrapper">
+
+    <section id="task_section">
+    <h3>To-Do list</h3>
+    <ol>
+        {% for tsk in tasks %}
+        <li>{{tsk.task}}
+            <form action="{{ tsk.done_url }}" method="get" id="done_form">
+            <input type="submit" value="DONE"></form>
+            <form action="{{ tsk.delete_url }}" method="get" id="delete_form">
+                <input type="submit" value="DELETE"></form>
+                <div style="clear:both"></div>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <form action="/" method="post" id="add"> {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="ADD" id="submit">
+    </form>
+    </section>
+
+    <section id="done_section">
+        <h3 style="text-align: center">Completed tasks.</h3>
+        <ol>
+            {% for dts in done %}
+            <li>
+                {{ dts.task }}
+                <form action="{{ dts.delete_done_url }}" method="get" id="done_del_form">
+                <input type="submit" value="DELETE"></form>
+                <div style="clear:both"></div>
+            </li>
+            {% endfor %}
+        </ol>
+    </section>
+    </div>
+</body>
+</html>
